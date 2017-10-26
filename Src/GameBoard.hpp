@@ -33,22 +33,14 @@ namespace board {
     public:
         GameBoard(unsigned int row = 8, unsigned int col = 8);
         
-        unsigned int CoorToId(unsigned row, unsigned col){
-            return (row * col_size + col);
-        }
-        
+        unsigned int CoorToId(unsigned row, unsigned col){ return (row * col_size + col); }
         Coor IdToCoor(unsigned int Id);
         
         void SetStatus(unsigned Id, CellStatus status);
         CellStatus GetStatus(unsigned Id);
         
-        unsigned int GetRowSize(){
-            return row_size;
-        }
-        
-        unsigned int GetColSize(){
-            return col_size;
-        }
+        unsigned int GetRowSize(){ return row_size; }
+        unsigned int GetColSize(){ return col_size; }
         
         void PrintBoard();
     };

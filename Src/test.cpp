@@ -14,32 +14,26 @@
 int main(int argc, char **argv){
     printf("Test!\n");
     board::GameBoard gb;
+    board::GameBoard gb_new;
     heu::Heuristic h;
     player::Player p0( &gb, player::Player0, h);
     player::Player p1( &gb, player::Player1, h);
+    player::ChoiceSet c;
+    
+    p0.GetChoiceSet(c);
+
+    
+    while(c.size()>1){
+        p0.Move(c[1].first, c[1].second);
+        p0.GetChoiceSet(c);
+    }
+     p1.GetChoiceSet(c);
+    while(c.size()>1){
+        p1.Move(c[1].first, c[1].second);
+        p1.GetChoiceSet(c);
+    }
     
     gb.PrintBoard();
-    printf("\n");
-    p0.Move( gb.CoorToId(6, 0), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
-    p1.Move( gb.CoorToId(1, 7), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
-    p1.Move( gb.CoorToId(2, 6), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
-    p1.Move( gb.CoorToId(3, 5), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
-    p1.Move( gb.CoorToId(4, 4), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
-    p1.Move( gb.CoorToId(5, 3), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
-    p0.Move( gb.CoorToId(7, 1), player::RightUp);
-    gb.PrintBoard();
-    printf("\n");
+    
     return 0;
 }

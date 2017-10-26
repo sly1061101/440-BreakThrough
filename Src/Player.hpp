@@ -14,11 +14,14 @@
 #include "GameBoard.hpp"
 
 namespace player{
-    enum playerside {Player0, Player1};
+    enum playerside {None, Player0, Player1};
     typedef enum playerside PlayerSide;
     
     enum action {Stay, LeftUp, Up, RightUp};
     typedef enum action Action;
+    
+    typedef std::pair<unsigned int, Action> Choice;
+    typedef std::vector<Choice> ChoiceSet;
     
     class Player{
     private:
@@ -28,21 +31,20 @@ namespace player{
         int strategy; //0:MiniMax 1:AlphaBeta
         
     public:
-        Player(board::GameBoard *b, PlayerSide s, heu::Heuristic h, int stra = 0):board(b), side(s),
-                                                                                heuristic(h),strategy(stra){};
-        void SetGameBoard(board::GameBoard *b){
-            board = b;
-        }
+        Player(board::GameBoard *b, PlayerSide s, heu::Heuristic h, int stra = 0):board(b), side(s), heuristic(h), strategy(stra) {};
         
-        void SetHeuristic(heu::Heuristic h){
-            heuristic = h;
-        }
+        void SetPlayerSide(PlayerSide s){ side = s; }
+        void SetGameBoard(board::GameBoard *b){ board = b; }
+        void SetHeuristic(heu::Heuristic h){ heuristic = h; }
+        void SetStrategy(int stra){ strategy = stra; }
         
-        void SetStrategy(int stra){
-            strategy = stra;
-        }
-        
+        bool IsLegalMove(unsigned int Id, Action a);
         void Move(unsigned int Id, Action a);
+        board::GameBoard ResultOfMove(unsigned int Id, Action a);
+        
+        static PlayerSide DetectWinner(board::GameBoard b, bool IsThreeWorker = false);
+        
+        void GetChoiceSet(ChoiceSet &choiceset);
         
     };
 }
