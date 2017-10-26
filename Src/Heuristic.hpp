@@ -6,8 +6,13 @@
 //  Copyright © 2017 Liuyi Shi. All rights reserved.
 //
 
-#ifndef Heuristic_h
-#define Heuristic_h
+#ifndef Heuristic_hpp
+#define Heuristic_hpp
 
+namespace heu{
+    class Heuristic{
+        
+    };
+}
 
 #endif /* Heuristic_h */

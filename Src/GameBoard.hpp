@@ -42,6 +42,14 @@ namespace board {
         void SetStatus(unsigned Id, CellStatus status);
         CellStatus GetStatus(unsigned Id);
         
+        unsigned int GetRowSize(){
+            return row_size;
+        }
+        
+        unsigned int GetColSize(){
+            return col_size;
+        }
+        
         void PrintBoard();
     };
 }

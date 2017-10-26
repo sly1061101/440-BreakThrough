@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include "GameBoard.hpp"
 
-int main(int argc, char **argv){
+int main_t(int argc, char **argv){
     printf("Test!\n");
+    return 0;
 }
 
