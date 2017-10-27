@@ -16,6 +16,7 @@
 int main(int argc, char **argv){
     
     srand( (unsigned) time(NULL) );
+    time_t t;
     
     board::GameBoard gb(8,8);
     heu::Heuristic *h0;
@@ -32,7 +33,9 @@ int main(int argc, char **argv){
     
     while(1){
         printf("Player0's turn.\n");
+        t = clock();
         p0.play();
+        printf("time cost:%ds\n",(clock() - t)/CLOCKS_PER_SEC);
         gb.PrintBoard();
         if( player::Player::DetectWinner(gb) == player::Player0 ){
             printf("Game End. Winner is:%d\n",player::Player::DetectWinner(gb));
@@ -40,7 +43,9 @@ int main(int argc, char **argv){
         }
         
         printf("Player1's turn.\n");
+        t = clock();
         p1.play();
+        printf("time cost:%ds\n",(clock() - t)/CLOCKS_PER_SEC);
         gb.PrintBoard();
         if( player::Player::DetectWinner(gb) == player::Player1 ){
             printf("Game End. Winner is:%d\n",player::Player::DetectWinner(gb));

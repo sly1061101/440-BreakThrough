@@ -447,7 +447,7 @@ player::Choice player::Player::MakeChoice(){
         MiniMax((*board), side, 0, 3, &c);
     }
     else if(strategy == 1){
-        
+        MaxValue((*board), side, 0, 5, -99999999, 99999999, &c);
     }
     else if(strategy == 2){
         ChoiceSet c_set;
@@ -485,11 +485,58 @@ float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned 
                 board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
                 board_next = PlayResult(board, i);
                 float value = MiniMax(board_next, side, Current_Depth + 1, Depth_Limit);
-                if( value < value_min )
+                if( value <= value_min )
                     value_min = value;
             }
             return value_min;
         }
+    }
+}
+
+float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, Choice *choice){
+    if(Current_Depth == Depth_Limit)
+        return (*heuristic)(board, side);
+    else{
+        float value_max = -99999999;
+        ChoiceSet c_set;
+        GetChoiceSet(board, side, c_set);
+        for(auto &i : c_set){
+            board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
+            board_next = PlayResult(board, i);
+            float value = MinValue(board_next, side, Current_Depth + 1, Depth_Limit, alpha, beta);
+            if( value >= value_max ){
+                value_max = value;
+                if(Current_Depth == 0)
+                    (*choice) = i;
+            }
+            if( value_max >= beta )
+                return value_max;
+            if( value_max > alpha )
+                alpha = value;
+        }
+        return value_max;
+    }
+}
+float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta){
+    if(Current_Depth == Depth_Limit)
+        return (*heuristic)(board, side);
+    else{
+        float value_min = 99999999;
+        ChoiceSet c_set;
+        GetChoiceSet(board, GetOppositeSide(side), c_set);
+        for(auto &i : c_set){
+            board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
+            board_next = PlayResult(board, i);
+            float value = MaxValue(board_next, side, Current_Depth + 1, Depth_Limit, alpha, beta);
+            if( value <= value_min ){
+                value_min = value;
+            }
+            if( value_min <= alpha )
+                return value_min;
+            if( value_min > beta )
+                beta = value;
+        }
+        return value_min;
     }
 }
 
