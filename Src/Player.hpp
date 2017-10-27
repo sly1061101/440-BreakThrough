@@ -10,12 +10,11 @@
 #define Player_hpp
 
 #include <stdio.h>
-#include "Heuristic.hpp"
 #include "GameBoard.hpp"
+#include "Heuristic.hpp"
+#include "Header.h"
 
 namespace player{
-    enum playerside {None, Player0, Player1};
-    typedef enum playerside PlayerSide;
     
     enum action {Stay, LeftUp, Up, RightUp};
     typedef enum action Action;
@@ -27,25 +26,40 @@ namespace player{
     private:
         board::GameBoard *board;
         PlayerSide side;
-        heu::Heuristic heuristic; // evaluation function used to evaluate a game status
-        int strategy; //0:MiniMax 1:AlphaBeta
+        heu::Heuristic *heuristic; // evaluation function used to evaluate a game status
+        int strategy; //0:MiniMax 1:AlphaBeta 2:Randomly pick up a choice
         
     public:
-        Player(board::GameBoard *b, PlayerSide s, heu::Heuristic h, int stra = 0):board(b), side(s), heuristic(h), strategy(stra) {};
+        Player(board::GameBoard *b, PlayerSide s, heu::Heuristic *h, int stra = 2):board(b), side(s), heuristic(h), strategy(stra) {};
         
         void SetPlayerSide(PlayerSide s){ side = s; }
         void SetGameBoard(board::GameBoard *b){ board = b; }
-        void SetHeuristic(heu::Heuristic h){ heuristic = h; }
+        void SetHeuristic(heu::Heuristic *h){ heuristic = h; }
         void SetStrategy(int stra){ strategy = stra; }
         
         bool IsLegalMove(unsigned int Id, Action a);
+        static bool IsLegalMove(board::GameBoard board, PlayerSide side, unsigned int Id, Action a);
+        
         void Move(unsigned int Id, Action a);
         board::GameBoard ResultOfMove(unsigned int Id, Action a);
+        static board::GameBoard ResultOfMove(board::GameBoard board, PlayerSide side, unsigned int Id, Action a);
         
         static PlayerSide DetectWinner(board::GameBoard b, bool IsThreeWorker = false);
         
         void GetChoiceSet(ChoiceSet &choiceset);
         
+        static void GetChoiceSet(board::GameBoard board, PlayerSide side, ChoiceSet &choiceset);
+        
+        Choice MakeChoice();
+        
+        //when depth=0, choice will contain the choice that has the minimax evalution value
+        float MiniMax(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, Choice *choice = nullptr);
+        
+        void play();
+        static board::GameBoard PlayResult(board::GameBoard board, Choice choice);
+        
+        static PlayerSide GetOppositeSide(PlayerSide side);
     };
 }
+
 #endif /* Player_hpp */

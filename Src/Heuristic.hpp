@@ -9,9 +9,13 @@
 #ifndef Heuristic_hpp
 #define Heuristic_hpp
 
+#include "Header.h"
+#include "GameBoard.hpp"
+
 namespace heu{
     class Heuristic{
-        
+    public:
+        virtual float operator()(board::GameBoard board, player::PlayerSide side) = 0;
     };
 }
 

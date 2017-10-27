@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace board {
-    enum cellstatus {Empty, Player0, Player1};
+    enum cellstatus {Player0, Player1, Empty};
     typedef enum cellstatus CellStatus;
     typedef std::pair<unsigned int, unsigned int> Coor;
     
@@ -31,9 +31,9 @@ namespace board {
         std::vector<Cell> CellList;
         
     public:
-        GameBoard(unsigned int row = 8, unsigned int col = 8);
+        GameBoard(unsigned int col_size = 8, unsigned int row_size = 8);
         
-        unsigned int CoorToId(unsigned row, unsigned col){ return (row * col_size + col); }
+        unsigned int CoorToId(unsigned row, unsigned col){ return (row * row_size + col); }
         Coor IdToCoor(unsigned int Id);
         
         void SetStatus(unsigned Id, CellStatus status);
@@ -41,6 +41,8 @@ namespace board {
         
         unsigned int GetRowSize(){ return row_size; }
         unsigned int GetColSize(){ return col_size; }
+        
+        unsigned int GetStatusNum(CellStatus status);
         
         void PrintBoard();
     };
