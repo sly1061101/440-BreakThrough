@@ -28,14 +28,16 @@ namespace player{
         PlayerSide side;
         heu::Heuristic *heuristic; // evaluation function used to evaluate a game status
         int strategy; //0:MiniMax 1:AlphaBeta 2:Randomly pick up a choice
+        unsigned int depth; //depth for search
         
     public:
-        Player(board::GameBoard *b, PlayerSide s, heu::Heuristic *h, int stra = 2):board(b), side(s), heuristic(h), strategy(stra) {};
+        Player(board::GameBoard *b, PlayerSide s, heu::Heuristic *h, int stra, unsigned d):board(b), side(s), heuristic(h), strategy(stra), depth(d) {};
         
         void SetPlayerSide(PlayerSide s){ side = s; }
         void SetGameBoard(board::GameBoard *b){ board = b; }
         void SetHeuristic(heu::Heuristic *h){ heuristic = h; }
         void SetStrategy(int stra){ strategy = stra; }
+        void SetDepth(unsigned int d){ depth = d; }
         
         bool IsLegalMove(unsigned int Id, Action a);
         static bool IsLegalMove(board::GameBoard board, PlayerSide side, unsigned int Id, Action a);

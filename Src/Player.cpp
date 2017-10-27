@@ -444,10 +444,10 @@ void player::Player::GetChoiceSet(board::GameBoard board, PlayerSide side, Choic
 player::Choice player::Player::MakeChoice(){
     Choice c;
     if(strategy == 0){
-        MiniMax((*board), side, 0, 3, &c);
+        MiniMax((*board), side, 0, depth, &c);
     }
     else if(strategy == 1){
-        MaxValue((*board), side, 0, 5, -99999999, 99999999, &c);
+        MaxValue((*board), side, 0, depth, -99999999, 99999999, &c);
     }
     else if(strategy == 2){
         ChoiceSet c_set;
