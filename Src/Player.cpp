@@ -14,10 +14,7 @@ bool player::Player::IsLegalMove(unsigned int Id, Action a){
     
     if(side == Player0){
         if( (*board).GetStatus(Id) == board::Player0 ){
-            if(a == Stay){
-                return true;
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row > 0) && (col > 0) && ( (*board).GetStatus( (*board).CoorToId(row - 1, col - 1) ) != board::Player0 ) )
                     return true;
                 else
@@ -41,10 +38,7 @@ bool player::Player::IsLegalMove(unsigned int Id, Action a){
     }
     else if(side == Player1){
         if( (*board).GetStatus(Id) == board::Player1 ){
-            if(a == Stay){
-                return true;
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row < ((*board).GetColSize() - 1)) && (col < ((*board).GetRowSize() - 1)) && ( (*board).GetStatus( (*board).CoorToId(row + 1, col + 1) ) != board::Player1 ) )
                     return true;
                 else
@@ -76,10 +70,7 @@ bool player::Player::IsLegalMove(board::GameBoard board, PlayerSide side, unsign
     
     if(side == Player0){
         if( board.GetStatus(Id) == board::Player0 ){
-            if(a == Stay){
-                return true;
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row > 0) && (col > 0) && ( board.GetStatus( board.CoorToId(row - 1, col - 1) ) != board::Player0 ) )
                     return true;
                 else
@@ -103,10 +94,7 @@ bool player::Player::IsLegalMove(board::GameBoard board, PlayerSide side, unsign
     }
     else if(side == Player1){
         if( board.GetStatus(Id) == board::Player1 ){
-            if(a == Stay){
-                return true;
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row < (board.GetColSize() - 1)) && (col < (board.GetRowSize() - 1)) && ( board.GetStatus( board.CoorToId(row + 1, col + 1) ) != board::Player1 ) )
                     return true;
                 else
@@ -138,10 +126,7 @@ void player::Player::Move(unsigned int Id, Action a){
     
     if(side == Player0){
         if( (*board).GetStatus(Id) == board::Player0 ){
-            if(a == Stay){
-                
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row > 0) && (col > 0) && ( (*board).GetStatus( (*board).CoorToId(row - 1, col - 1) ) != board::Player0 ) ){
                     (*board).SetStatus( (*board).CoorToId(row, col) , board::Empty);
                     (*board).SetStatus( (*board).CoorToId(row - 1, col - 1) , board::Player0);
@@ -171,10 +156,7 @@ void player::Player::Move(unsigned int Id, Action a){
     }
     else if(side == Player1){
         if( (*board).GetStatus(Id) == board::Player1 ){
-            if(a == Stay){
-                
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row < ((*board).GetColSize() - 1)) && (col < ((*board).GetRowSize() - 1)) && ( (*board).GetStatus( (*board).CoorToId(row + 1, col + 1) ) != board::Player1 ) ){
                     (*board).SetStatus( (*board).CoorToId(row, col) , board::Empty);
                     (*board).SetStatus( (*board).CoorToId(row + 1, col + 1) , board::Player1);
@@ -213,10 +195,7 @@ board::GameBoard player::Player::ResultOfMove(unsigned int Id, Action a){
     
     if(side == Player0){
         if( board_new.GetStatus(Id) == board::Player0 ){
-            if(a == Stay){
-                
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row > 0) && (col > 0) && ( board_new.GetStatus( board_new.CoorToId(row - 1, col - 1) ) != board::Player0 ) ){
                     board_new.SetStatus( board_new.CoorToId(row, col) , board::Empty);
                     board_new.SetStatus( board_new.CoorToId(row - 1, col - 1) , board::Player0);
@@ -246,10 +225,7 @@ board::GameBoard player::Player::ResultOfMove(unsigned int Id, Action a){
     }
     else if(side == Player1){
         if( board_new.GetStatus(Id) == board::Player1 ){
-            if(a == Stay){
-                
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row < (board_new.GetColSize() - 1)) && (col < (board_new.GetRowSize() - 1)) && ( board_new.GetStatus( board_new.CoorToId(row + 1, col + 1) ) != board::Player1 ) ){
                     board_new.SetStatus( board_new.CoorToId(row, col) , board::Empty);
                     board_new.SetStatus( board_new.CoorToId(row + 1, col + 1) , board::Player1);
@@ -289,10 +265,7 @@ board::GameBoard player::Player::ResultOfMove(board::GameBoard board, PlayerSide
     
     if(side == Player0){
         if( board_new.GetStatus(Id) == board::Player0 ){
-            if(a == Stay){
-                
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row > 0) && (col > 0) && ( board_new.GetStatus( board_new.CoorToId(row - 1, col - 1) ) != board::Player0 ) ){
                     board_new.SetStatus( board_new.CoorToId(row, col) , board::Empty);
                     board_new.SetStatus( board_new.CoorToId(row - 1, col - 1) , board::Player0);
@@ -322,10 +295,7 @@ board::GameBoard player::Player::ResultOfMove(board::GameBoard board, PlayerSide
     }
     else if(side == Player1){
         if( board_new.GetStatus(Id) == board::Player1 ){
-            if(a == Stay){
-                
-            }
-            else if(a == LeftUp){
+            if(a == LeftUp){
                 if( (row < (board_new.GetColSize() - 1)) && (col < (board_new.GetRowSize() - 1)) && ( board_new.GetStatus( board_new.CoorToId(row + 1, col + 1) ) != board::Player1 ) ){
                     board_new.SetStatus( board_new.CoorToId(row, col) , board::Empty);
                     board_new.SetStatus( board_new.CoorToId(row + 1, col + 1) , board::Player1);
@@ -411,12 +381,6 @@ void player::Player::GetChoiceSet(ChoiceSet &choiceset){
         for(int j = 0; j < row_size; ++j){
             if(side == Player0){
                 if( (*board).GetStatus( (*board).CoorToId(i, j) ) == board::Player0 ){
-                    //the action of "Stay" for every worker just gets the result, therefore only consider it for the first time
-                    if(choiceset.size() == 0){
-                        choice.first = (*board).CoorToId(i, j);
-                        choice.second = Stay;
-                        choiceset.push_back(choice);
-                    }
                     for(Action a: action_list){
                         if( IsLegalMove((*board).CoorToId(i, j), a) ){
                             choice.first = (*board).CoorToId(i, j);
@@ -428,12 +392,6 @@ void player::Player::GetChoiceSet(ChoiceSet &choiceset){
             }
             else if(side == Player1){
                 if( (*board).GetStatus( (*board).CoorToId(i, j) ) == board::Player1 ){
-                    //the action of "Stay" for every worker just gets the result, therefore only consider it for the first time
-                    if(choiceset.size() == 0){
-                        choice.first = (*board).CoorToId(i, j);
-                        choice.second = Stay;
-                        choiceset.push_back(choice);
-                    }
                     for(Action a: action_list){
                         if( IsLegalMove((*board).CoorToId(i, j), a) ){
                             choice.first = (*board).CoorToId(i, j);
@@ -459,12 +417,6 @@ void player::Player::GetChoiceSet(board::GameBoard board, PlayerSide side, Choic
         for(int j = 0; j < row_size; ++j){
             if(side == Player0){
                 if( board.GetStatus( board.CoorToId(i, j) ) == board::Player0 ){
-                    //the action of "Stay" for every worker just gets the result, therefore only consider it for the first time
-                    if(choiceset.size() == 0){
-                        choice.first = board.CoorToId(i, j);
-                        choice.second = Stay;
-                        choiceset.push_back(choice);
-                    }
                     for(Action a: action_list){
                         if( IsLegalMove(board, side, board.CoorToId(i, j), a) ){
                             choice.first = board.CoorToId(i, j);
@@ -476,12 +428,6 @@ void player::Player::GetChoiceSet(board::GameBoard board, PlayerSide side, Choic
             }
             else if(side == Player1){
                 if( board.GetStatus( board.CoorToId(i, j) ) == board::Player1 ){
-                    //the action of "Stay" for every worker just gets the result, therefore only consider it for the first time
-                    if(choiceset.size() == 0){
-                        choice.first = board.CoorToId(i, j);
-                        choice.second = Stay;
-                        choiceset.push_back(choice);
-                    }
                     for(Action a: action_list){
                         if( IsLegalMove(board, side, board.CoorToId(i, j), a) ){
                             choice.first = board.CoorToId(i, j);

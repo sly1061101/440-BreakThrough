@@ -16,7 +16,7 @@
 
 namespace player{
     
-    enum action {Stay, LeftUp, Up, RightUp};
+    enum action {LeftUp, Up, RightUp};
     typedef enum action Action;
     
     typedef std::pair<unsigned int, Action> Choice;
