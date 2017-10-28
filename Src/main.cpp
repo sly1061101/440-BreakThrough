@@ -16,6 +16,7 @@
 #include "Heuristic_Test.hpp"
 
 #define HUMAN_PLAYER 0
+#define REPEAT_PLAY 1
 
 int main(int argc, char **argv){
     
@@ -25,7 +26,7 @@ int main(int argc, char **argv){
     int num_0_win = 0;
     int num_1_win = 0;
     
-    while( num_total < 100 ){
+    while( num_total < 50 ){
         
         unsigned int NumOfNodeP0 = 0;
         unsigned int NumOfNodeP1 = 0;
@@ -45,18 +46,16 @@ int main(int argc, char **argv){
         heu::Heuristic_Defensive1 h_d1;
         heu::Heuristic_WinningStatus h_w;
         heu::Heuristic_Test h_t;
-        
-        h0 = &h_w;
+    
+        h0 = &h_o1;
         h1 = &h_o1;
         
-        player::Player p0( &gb, player::Player0, h0, 0, 3);
+        player::Player p0( &gb, player::Player0, h0, 1, 3);
         player::Player p1( &gb, player::Player1, h1, 1, 3);
         
         gb.PrintBoard();
         
-        
         while(1){
-
             
             printf("Player0's turn.\n");
             t = clock();
@@ -69,8 +68,10 @@ int main(int argc, char **argv){
                 char d;
                 
                 printf("Input Row and Col of worker and Direction to move:\n");
-                printf("For example: 6 0 U\n");
+                printf("For example: 6 1 U\n");
                 scanf("%d %d %c", &r, &c, &d);
+                r--;
+                c--;
                 player::Action a;
                 bool IsDirectionValid = true;
                 if(d == 'L')
@@ -84,6 +85,8 @@ int main(int argc, char **argv){
                 while( (IsDirectionValid==false) || (p0.IsLegalMove(gb.CoorToId(r, c), a) == false) ){
                     printf("Illegal input, try again!\n");
                     scanf("%d %d %c", &r, &c, &d);
+                    r--;
+                    c--;
                     IsDirectionValid = true;
                     if(d == 'L')
                         a = player::LeftUp;
@@ -124,10 +127,11 @@ int main(int argc, char **argv){
         printf("Total Time: P0: %f s, P1: %f s\n", t_P0, t_P1);
         printf("NumOfNodes: P0: %d, P1: %d\n", NumOfNodeP0, NumOfNodeP1);
         num_total++;
-        break;
+        if(!REPEAT_PLAY)
+            break;
     }
     
-    printf("\nTotal:%d Player0:%d Player1:%d\n\n", num_total, num_0_win, num_1_win);
+    printf("\nTotal: %d Player0: %d Player1: %d\n\n", num_total, num_0_win, num_1_win);
  
     return 0;
 }
