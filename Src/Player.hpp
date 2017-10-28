@@ -13,6 +13,7 @@
 #include "GameBoard.hpp"
 #include "Heuristic.hpp"
 #include "Header.h"
+#include <algorithm>
 
 namespace player{
     
@@ -56,6 +57,9 @@ namespace player{
         
         //when depth=0, choice will contain the choice that has the minimax evalution value
         float MiniMax(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, unsigned int *NumOfNode, Choice *choice = nullptr);
+        
+        //Change the order of Choices in c_set accoring to the heuristic of the board after the movement.
+        void ChangeMoveOrder(ChoiceSet *c_set, board::GameBoard board, PlayerSide side, bool IsAscending);
         
         //menthods for aplha-beta pruning
         float MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode, Choice *choice = nullptr);

@@ -495,6 +495,38 @@ float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned 
     }
 }
 
+bool myLess(std::pair<float, player::Choice> a, std::pair<float, player::Choice> b)
+{
+    return a.first < b.first;
+}
+
+bool myGreater(std::pair<float, player::Choice> a, std::pair<float, player::Choice> b)
+{
+    return a.first > b.first;
+}
+
+void player::Player::ChangeMoveOrder(ChoiceSet *c_set, board::GameBoard board, PlayerSide side, bool IsAscending){
+    std::pair<float, Choice> heu_and_choice_pair;
+    std::vector< std::pair<float, Choice> > heu_and_choice;
+    for(auto &i : (*c_set) ){
+        board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
+        board_next = player::Player::PlayResult(board, i);
+        heu_and_choice_pair.first = (*heuristic)(board, side);
+        heu_and_choice_pair.second = i;
+        heu_and_choice.push_back(heu_and_choice_pair);
+    }
+    if(IsAscending)
+        std::sort(heu_and_choice.begin(), heu_and_choice.end(), myLess);
+    else
+        std::sort(heu_and_choice.begin(), heu_and_choice.end(), myGreater);
+    
+    (*c_set).clear();
+    
+    for(auto &i : heu_and_choice)
+        (*c_set).push_back(i.second);
+    
+}
+
 float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode, Choice *choice){
     if(Current_Depth == Depth_Limit)
         return (*heuristic)(board, side);
@@ -503,6 +535,8 @@ float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned
         float value_max = -99999999;
         ChoiceSet c_set;
         GetChoiceSet(board, side, c_set);
+        //order the choice from bigger heuristic value to smaller
+        ChangeMoveOrder( &c_set, board, side, false);
         for(auto &i : c_set){
             board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
             board_next = PlayResult(board, i);
@@ -520,6 +554,7 @@ float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned
         return value_max;
     }
 }
+
 float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode){
     if(Current_Depth == Depth_Limit)
         return (*heuristic)(board, side);
@@ -528,6 +563,8 @@ float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned
         float value_min = 99999999;
         ChoiceSet c_set;
         GetChoiceSet(board, GetOppositeSide(side), c_set);
+        //order the choice from smaller heuristic value to bigger
+        ChangeMoveOrder( &c_set, board, side, true);
         for(auto &i : c_set){
             board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
             board_next = PlayResult(board, i);
