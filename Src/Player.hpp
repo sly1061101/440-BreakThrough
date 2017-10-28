@@ -52,16 +52,18 @@ namespace player{
         
         static void GetChoiceSet(board::GameBoard board, PlayerSide side, ChoiceSet &choiceset);
         
-        Choice MakeChoice();
+        Choice MakeChoice(unsigned int *NumOfNode);
         
         //when depth=0, choice will contain the choice that has the minimax evalution value
-        float MiniMax(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, Choice *choice = nullptr);
+        float MiniMax(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, unsigned int *NumOfNode, Choice *choice = nullptr);
         
         //menthods for aplha-beta pruning
-        float MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, Choice *choice = nullptr);
-        float MinValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta);
+        float MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode, Choice *choice = nullptr);
+        float MinValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode);
         
-        void play();
+        //return Number of Nodes expaned in this turn
+        unsigned int play();
+        
         static board::GameBoard PlayResult(board::GameBoard board, Choice choice);
         
         static PlayerSide GetOppositeSide(PlayerSide side);

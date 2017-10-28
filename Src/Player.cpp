@@ -441,13 +441,14 @@ void player::Player::GetChoiceSet(board::GameBoard board, PlayerSide side, Choic
     }
 }
 
-player::Choice player::Player::MakeChoice(){
+player::Choice player::Player::MakeChoice(unsigned int *NumOfNode){
     Choice c;
+    (*NumOfNode) = 0;
     if(strategy == 0){
-        MiniMax((*board), side, 0, depth, &c);
+        MiniMax((*board), side, 0, depth, NumOfNode, &c);
     }
     else if(strategy == 1){
-        MaxValue((*board), side, 0, depth, -99999999, 99999999, &c);
+        MaxValue((*board), side, 0, depth, -99999999, 99999999, NumOfNode, &c);
     }
     else if(strategy == 2){
         ChoiceSet c_set;
@@ -457,10 +458,11 @@ player::Choice player::Player::MakeChoice(){
     return c;
 }
 
-float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, Choice *choice){
+float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, unsigned int *NumOfNode, Choice *choice){
     if(Current_Depth == Depth_Limit)
         return (*heuristic)(board, side);
     else{
+        (*NumOfNode)++;
         if( (Current_Depth % 2) == 0 ){
             float value_max = -99999999;
             ChoiceSet c_set;
@@ -468,7 +470,7 @@ float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned 
             for(auto &i : c_set){
                 board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
                 board_next = PlayResult(board, i);
-                float value = MiniMax(board_next, side, Current_Depth + 1, Depth_Limit);
+                float value = MiniMax(board_next, side, Current_Depth + 1, Depth_Limit, NumOfNode);
                 if( value >= value_max ){
                     value_max = value;
                     if(Current_Depth == 0)
@@ -484,7 +486,7 @@ float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned 
             for(auto &i : c_set){
                 board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
                 board_next = PlayResult(board, i);
-                float value = MiniMax(board_next, side, Current_Depth + 1, Depth_Limit);
+                float value = MiniMax(board_next, side, Current_Depth + 1, Depth_Limit, NumOfNode);
                 if( value <= value_min )
                     value_min = value;
             }
@@ -493,17 +495,18 @@ float player::Player::MiniMax(board::GameBoard board, PlayerSide side, unsigned 
     }
 }
 
-float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, Choice *choice){
+float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode, Choice *choice){
     if(Current_Depth == Depth_Limit)
         return (*heuristic)(board, side);
     else{
+        (*NumOfNode)++;
         float value_max = -99999999;
         ChoiceSet c_set;
         GetChoiceSet(board, side, c_set);
         for(auto &i : c_set){
             board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
             board_next = PlayResult(board, i);
-            float value = MinValue(board_next, side, Current_Depth + 1, Depth_Limit, alpha, beta);
+            float value = MinValue(board_next, side, Current_Depth + 1, Depth_Limit, alpha, beta, NumOfNode);
             if( value >= value_max ){
                 value_max = value;
                 if(Current_Depth == 0)
@@ -517,17 +520,18 @@ float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned
         return value_max;
     }
 }
-float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta){
+float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned int Current_Depth, unsigned int Depth_Limit, float alpha, float beta, unsigned int *NumOfNode){
     if(Current_Depth == Depth_Limit)
         return (*heuristic)(board, side);
     else{
+        (*NumOfNode)++;
         float value_min = 99999999;
         ChoiceSet c_set;
         GetChoiceSet(board, GetOppositeSide(side), c_set);
         for(auto &i : c_set){
             board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
             board_next = PlayResult(board, i);
-            float value = MaxValue(board_next, side, Current_Depth + 1, Depth_Limit, alpha, beta);
+            float value = MaxValue(board_next, side, Current_Depth + 1, Depth_Limit, alpha, beta, NumOfNode);
             if( value <= value_min ){
                 value_min = value;
             }
@@ -540,10 +544,12 @@ float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned
     }
 }
 
-void player::Player::play(){
+unsigned int player::Player::play(){
     Choice c;
-    c = MakeChoice();
+    unsigned int NumOfNode = 0;
+    c = MakeChoice(&NumOfNode);
     Move(c.first, c.second);
+    return NumOfNode;
 }
 
 board::GameBoard player::Player::PlayResult(board::GameBoard board, Choice choice){
