@@ -46,13 +46,25 @@ board::CellStatus board::GameBoard::GetStatus(unsigned int Id){
 
 void board::GameBoard::PrintBoard(){
     printf("\n");
+    for(int j=0; j < row_size+1; j++){
+        if(j == 0)
+            printf("  ");
+        else
+            printf("%d ",j);
+        
+        if(j == row_size)
+            printf("\n");
+    }
+    
     for(auto &i : CellList){
+        if(i.col == 0)
+            printf("%d ",i.row+1);
         if(i.Status == Player0)
-            printf("0");
+            printf("0 ");
         else if(i.Status == Player1)
-            printf("1");
+            printf("1 ");
         else if(i.Status == Empty)
-            printf("-");
+            printf("- ");
         if(i.col == row_size - 1)
             printf("\n");
     }
