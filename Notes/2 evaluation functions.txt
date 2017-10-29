@@ -1,0 +1,29 @@
+2 evaluation functions:
+
+more offesive -- moving forward and capturing the enemy
+more defensive -- preventing the enemy moving towards my territory or capturing my pieces
+
+return a value for a position when the depth limit of search is reached.
+
+Heuristic:
+
+Tasks:
+
+1) Offensive 2:
+	 to beat Defensive 1: The more pieces you have remaining, the higher your value is. The value will be computed according to the formula 2*(number_of_own_pieces_remaining) + random().
+
+	 Design: 
+	 to push forward, and to capture enemy pieces as much as possible.
+	 i.e. 
+	 evaluation = pieces left + position of most front piece - 0.7 * my pieces about to be captured - # of pieces the opponent have
+
+
+
+2) Defensive 2:
+	to beat Offensive 1: The more pieces your opponent has remaining, the lower your value is. The value will be computed according to the formula 2*(30 - number_of_opponent_pieces_remaining) + random().
+
+
+	Design: 
+	 to avoid being captured, and to capture the most front piece of the enemy. 
+	 i.e. 
+	 evaluation = pieces left + 0.7 * # of enemy pieces I am about to capture - position of most front piece of the enemy - # of pieces the opponent have
