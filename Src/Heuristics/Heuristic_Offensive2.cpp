@@ -1,16 +1,14 @@
 //
-//  Heuristic_Test.cpp
+//  Heuristic_Offensive2.cpp
 //  448-BreakThrough
 //
-//  Created by Liuyi Shi on 10/27/17.
+//  Created by Liuyi Shi on 10/28/17.
 //  Copyright © 2017 Liuyi Shi. All rights reserved.
 //
 
-#include "Heuristic_Test.hpp"
+#include "Heuristic_Offensive2.hpp"
 
-float heu::Heuristic_Test::operator()(board::GameBoard board, player::PlayerSide side){
-    float Player0Score = 0;
-    float Player1Score = 0;
+float heu::Heuristic_Offensive2::operator()(board::GameBoard board, player::PlayerSide side){
     
     unsigned int Player0Left;
     unsigned int Player1Left;
@@ -49,26 +47,16 @@ float heu::Heuristic_Test::operator()(board::GameBoard board, player::PlayerSide
             }
         }
     }
-    
-    if( Player0MostFrontDistance != 7 && Player1Left != 0)
-        Player0Score = Player0Left + 2 * Player0MostFrontDistance + 2 * Player0AverageDistanceFromHome;
-    else
-        Player0Score = 99999999;
-    
-    if( Player1MostFrontDistance != 7 && Player0Left != 0)
-        Player0Score = Player1Left + 2 * Player1MostFrontDistance + 2 * Player1AverageDistanceFromHome;
-    else
-        Player1Score = 99999999;
-    
+   
     float evaluation = 0;
     if(side == player::Player0){
         evaluation = ( Player0Left + 2 * Player0MostFrontDistance + 3 * Player0AverageDistanceFromHome )
-        -( 0.5 * Player1Left + 5 * Player1MostFrontDistance + 1 * Player1AverageDistanceFromHome )
+        -( 0 * Player1Left + 5 * Player1MostFrontDistance + 2 * Player1AverageDistanceFromHome )
         + ( rand() / double(RAND_MAX) );
     }
     else if(side == player::Player1){
         evaluation = ( Player1Left + 2 * Player1MostFrontDistance + 3 * Player1AverageDistanceFromHome )
-        -( 0.5 * Player0Left + 5 * Player0MostFrontDistance + 2 * Player0AverageDistanceFromHome )
+        -( 0 * Player0Left + 5 * Player0MostFrontDistance + 2 * Player0AverageDistanceFromHome )
         + ( rand() / double(RAND_MAX) );
     }
     return evaluation;

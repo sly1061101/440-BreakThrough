@@ -1,13 +1,13 @@
 //
-//  Heuristic_WinningStatus.hpp
+//  Heuristic_Offensive2.hpp
 //  448-BreakThrough
 //
 //  Created by Liuyi Shi on 10/28/17.
 //  Copyright © 2017 Liuyi Shi. All rights reserved.
 //
 
-#ifndef Heuristic_WinningStatus_hpp
-#define Heuristic_WinningStatus_hpp
+#ifndef Heuristic_Offensive2_hpp
+#define Heuristic_Offensive2_hpp
 
 #include <stdio.h>
 #include "Heuristic.hpp"
@@ -15,9 +15,10 @@
 #include "GameBoard.hpp"
 
 namespace heu{
-    class Heuristic_WinningStatus: public Heuristic{
+    class Heuristic_Offensive2: public Heuristic{
     public:
         float operator()(board::GameBoard board, player::PlayerSide side);
     };
 }
-#endif /* Heuristic_WinningStatus_hpp */
+
+#endif /* Heuristic_Offensive2_hpp */

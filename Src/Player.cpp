@@ -536,7 +536,7 @@ float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned
         ChoiceSet c_set;
         GetChoiceSet(board, side, c_set);
         //order the choice from bigger heuristic value to smaller
-        ChangeMoveOrder( &c_set, board, side, false);
+        //ChangeMoveOrder( &c_set, board, side, false);
         for(auto &i : c_set){
             board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
             board_next = PlayResult(board, i);
@@ -564,7 +564,7 @@ float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned
         ChoiceSet c_set;
         GetChoiceSet(board, GetOppositeSide(side), c_set);
         //order the choice from smaller heuristic value to bigger
-        ChangeMoveOrder( &c_set, board, side, true);
+        //ChangeMoveOrder( &c_set, board, side, true);
         for(auto &i : c_set){
             board::GameBoard board_next( board.GetRowSize(), board.GetColSize() );
             board_next = PlayResult(board, i);
