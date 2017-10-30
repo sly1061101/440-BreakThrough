@@ -34,6 +34,7 @@ float heu::Heuristic_Offensive2::operator()(board::GameBoard board, player::Play
             }
         }
     }
+    Player0AverageDistanceFromHome /= Player0Left;
     
     GotFrontValue = false;
     for(int i = board.GetColSize() - 1; i >= 0; --i ){
@@ -47,6 +48,7 @@ float heu::Heuristic_Offensive2::operator()(board::GameBoard board, player::Play
             }
         }
     }
+    Player1AverageDistanceFromHome /= Player1Left;
    
     float evaluation = 0;
     if(side == player::Player0){

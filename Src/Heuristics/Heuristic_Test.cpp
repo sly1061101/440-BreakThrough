@@ -36,6 +36,7 @@ float heu::Heuristic_Test::operator()(board::GameBoard board, player::PlayerSide
             }
         }
     }
+    Player0AverageDistanceFromHome /= Player0Left;
     
     GotFrontValue = false;
     for(int i = board.GetColSize() - 1; i >= 0; --i ){
@@ -49,6 +50,7 @@ float heu::Heuristic_Test::operator()(board::GameBoard board, player::PlayerSide
             }
         }
     }
+    Player1AverageDistanceFromHome /= Player1Left;
     
     if( Player0MostFrontDistance != 7 && Player1Left != 0)
         Player0Score = Player0Left + 2 * Player0MostFrontDistance + 2 * Player0AverageDistanceFromHome;
@@ -62,13 +64,13 @@ float heu::Heuristic_Test::operator()(board::GameBoard board, player::PlayerSide
     
     float evaluation = 0;
     if(side == player::Player0){
-        evaluation = ( Player0Left + 2 * Player0MostFrontDistance + 3 * Player0AverageDistanceFromHome )
-        -( 0.5 * Player1Left + 5 * Player1MostFrontDistance + 1 * Player1AverageDistanceFromHome )
+        evaluation = ( 0 * Player0Left + 2 * Player0MostFrontDistance + 3 * Player0AverageDistanceFromHome )
+        -( 2 * Player1Left + 5 * Player1MostFrontDistance + 1 * Player1AverageDistanceFromHome )
         + ( rand() / double(RAND_MAX) );
     }
     else if(side == player::Player1){
-        evaluation = ( Player1Left + 2 * Player1MostFrontDistance + 3 * Player1AverageDistanceFromHome )
-        -( 0.5 * Player0Left + 5 * Player0MostFrontDistance + 2 * Player0AverageDistanceFromHome )
+        evaluation = ( 0 * Player1Left + 2 * Player1MostFrontDistance + 3 * Player1AverageDistanceFromHome )
+        -( 2 * Player0Left + 5 * Player0MostFrontDistance + 2 * Player0AverageDistanceFromHome )
         + ( rand() / double(RAND_MAX) );
     }
     return evaluation;
