@@ -549,7 +549,7 @@ float player::Player::MaxValue(board::GameBoard board, PlayerSide side, unsigned
             if( value_max >= beta )
                 return value_max;
             if( value_max > alpha )
-                alpha = value;
+                alpha = value_max;
         }
         return value_max;
     }
@@ -575,7 +575,7 @@ float player::Player::MinValue(board::GameBoard board, PlayerSide side, unsigned
             if( value_min <= alpha )
                 return value_min;
             if( value_min > beta )
-                beta = value;
+                beta = value_min;
         }
         return value_min;
     }
